@@ -1,0 +1,20 @@
+# Fathom Configuration
+
+# Configuration for the Librarian component
+librarian:
+  db_path: 'fathom_librarian.db'
+
+# Configuration for the Indexing Worker
+indexing:
+  # The embedding model to use for semantic search.
+  # 'microsoft/unixcoder-base' is specialized for code.
+  embedding_model: 'microsoft/unixcoder-base'
+  # Path to the directory where SCIP indexes will be stored.
+  scip_index_path: '.fathom_indexes/scip'
+  # Path where ChromaDB will store its data.
+  chroma_db_path: '.fathom_indexes/chroma'
+
+# Configuration for the Search Engine
+search_engine:
+  host: '127.0.0.1'
+  port: 8000

@@ -1,0 +1,17 @@
+README.md
+pyproject.toml
+src/fathom/__init__.py
+src/fathom/dependency_manager.py
+src/fathom/indexer.py
+src/fathom/librarian.py
+src/fathom/main.py
+src/fathom/parser.py
+src/fathom/scip_integrator.py
+src/fathom/scip_pb2.py
+src/fathom/scip_querier.py
+src/fathom/searcher.py
+src/fathom.egg-info/PKG-INFO
+src/fathom.egg-info/SOURCES.txt
+src/fathom.egg-info/dependency_links.txt
+src/fathom.egg-info/top_level.txt
+src/fathom/fathom_grammars/scip_pb2.py

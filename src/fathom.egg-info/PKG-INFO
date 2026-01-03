@@ -1,0 +1,113 @@
+Metadata-Version: 2.4
+Name: fathom
+Version: 0.0.1
+Summary: A code-aware search engine.
+Author-email: Fathom AI <fathom@example.com>
+Classifier: Programming Language :: Python :: 3
+Classifier: License :: OSI Approved :: MIT License
+Classifier: Operating System :: OS Independent
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+
+# Fathom: A Code-Aware Search Engine
+
+## Project Overview
+
+Fathom is a multi-faceted code search engine designed to provide deep, contextual understanding of codebases for Large Language Models (LLMs) like Gemini. It aims to overcome the limitations of traditional keyword search by incorporating semantic and structural analysis of code.
+
+The system is composed of three core components:
+
+*   **The Librarian:** Manages registered code repositories and their indexing status using an SQLite database.
+*   **The Indexing Worker:** A background process that analyzes code, extracts meaningful information, generates embeddings, and builds various search indices (semantic, structural, and literal).
+*   **The Search Engine:** A public-facing API that routes LLM queries to the appropriate backend index and synthesizes results.
+
+This project is being built in phases, with Phase 1 focusing on ingestion and semantic search.
+
+## Setup and Installation
+
+### 1. Clone the Repository
+
+(Assuming you have cloned this repository already.)
+
+### 2. Install ripgrep (System Dependency)
+
+`ripgrep` is required for fast literal code search (Phase 2). It needs to be installed as a system-level tool.
+
+On macOS, you can install it using Homebrew:
+```bash
+brew install ripgrep
+```
+Please ensure `rg` is available in your system's PATH.
+
+### 3. Set up Python Virtual Environment
+
+It's highly recommended to use a Python virtual environment to manage dependencies. This project requires Python 3.12.
+
+```bash
+# Create a virtual environment using Python 3.12
+python3.12 -m venv .venv
+
+# Activate the virtual environment
+source .venv/bin/activate
+```
+
+### 4. Install Python Dependencies
+
+With the virtual environment activated, install the required Python packages:
+
+```bash
+pip install -r requirements.txt
+```
+
+### 5. Download Tree-sitter Java Grammar
+
+The `tree-sitter` library needs language-specific grammars. We will clone the Java grammar into a local directory:
+
+```bash
+git clone https://github.com/tree-sitter/tree-sitter-java.git .fathom_grammars/tree-sitter-java
+```
+
+## Running Phase 1: Ingestion & Semantic Search (The Brain)
+
+Phase 1 involves parsing Java code, extracting method information, generating semantic embeddings, and storing them in ChromaDB.
+
+### 1. Verify Parser Setup
+
+We have a fixed parser script (`src/fathom/parser_fixed.py`) to confirm Tree-sitter is working correctly. Run this to build the grammar and parse the sample Java project:
+
+```bash
+.venv/bin/python -m src.fathom.parser_fixed
+```
+You should see the parsed AST and extracted method information.
+
+### 2. Run the Indexing Worker
+
+To index the `sample_java_project` and populate ChromaDB:
+
+```bash
+.venv/bin/python -m src.fathom.indexer_fixed
+```
+
+This will:
+*   Load the `all-MiniLM-L6-v2` embedding model (may download on first run).
+*   Create a `.fathom_indexes/chroma` directory if it doesn't exist.
+*   Parse `sample_java_project/com/example/Main.java`.
+*   Extract method code and metadata.
+*   Generate embeddings and store them in the ChromaDB collection `fathom-code-snippets-sample_java_project`.
+
+## Project Structure
+
+*   `plan.md`: The detailed project plan.
+*   `README.md`: This file.
+*   `requirements.txt`: Python dependencies.
+*   `config.yaml`: Project configuration (e.g., ChromaDB path, embedding model).
+*   `src/fathom/`: Python source code.
+    *   `__init__.py`: Makes `fathom` a Python package.
+    *   `parser.py`: Original parser attempt (kept for reference).
+    *   `parser_fixed.py`: Corrected parser implementation using `tree_sitter_languages`.
+    *   `indexer_new.py`: Original indexer implementation (kept for reference).
+    *   `indexer_fixed.py`: Corrected indexer implementation, using `parser_fixed.py`.
+*   `.fathom_grammars/tree-sitter-java/`: Cloned Tree-sitter Java grammar.
+*   `sample_java_project/`: A simple Java project for testing.
+    *   `com/example/Main.java`: Sample Java file.
+*   `.fathom_indexes/chroma/`: (Created by `indexer_fixed.py`) Contains ChromaDB data.

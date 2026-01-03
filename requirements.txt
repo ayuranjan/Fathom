@@ -1,0 +1,25 @@
+# Core dependencies for Fathom
+
+# For parsing code
+tree-sitter==0.20.1
+tree_sitter_languages
+
+# For vector storage and search
+chromadb
+
+# For generating embeddings
+sentence-transformers
+
+# For the web server (Phase 3)
+fastapi
+uvicorn[standard]
+
+# For reading config files
+PyYAML
+
+# For file watching (Future enhancement)
+watchdog
+
+
+
+

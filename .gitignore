@@ -1,0 +1,26 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.pyc
+*.pyd
+*.so
+
+# Virtual environment
+.venv/
+
+# Database file
+fathom_librarian.db
+
+# Fathom generated indexes
+.fathom_indexes/
+
+# Fathom extracted dependencies
+.fathom_deps/
+
+# Old development files (user-requested)
+_old_development_files/
+
+# Log files
+*.log
+
+# Temporary test app
+test_app.py
