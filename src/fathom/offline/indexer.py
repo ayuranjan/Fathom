@@ -10,7 +10,6 @@ from sentence_transformers import SentenceTransformer
 import chromadb
 # QueryResult type hint removed as it's not available in this version of chromadb
 
-# Import our corrected Java parser
 from .parser import setup_java_parser, get_language
 # Import Librarian for project management
 from .librarian import get_project_path, update_project_timestamp, create_tables
